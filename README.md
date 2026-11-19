@@ -47,7 +47,7 @@ flowchart LR
 
 ### 方式 A：下载 exe（推荐）
 
-从 [Releases](https://github.com/acejaiy/url2markdown/releases) 下载 `网页转Markdown.exe`，双击打开即可使用，无需 Python 环境。
+从 [Releases](https://github.com/acejaiy/url2markdown/releases) 下载 `web2file-gui.exe`，双击打开即可使用，无需 Python 环境。
 
 > 提示：exe 未做代码签名，首次运行可能触发 Windows SmartScreen 提示，选择「更多信息 → 仍要运行」即可。
 
