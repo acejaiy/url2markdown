@@ -3,7 +3,7 @@ chcp 65001 >nul
 cd /d "%~dp0"
 
 echo ============================================
-echo   打包 网页转Markdown.exe (GUI版)
+echo   打包 网页转文件-剪藏助手 V1.1.0 预览版 (GUI)
 echo ============================================
 echo.
 
@@ -30,9 +30,9 @@ echo.
 %PY% -m PyInstaller build.spec --noconfirm
 
 echo.
-if exist "dist\网页转Markdown.exe" (
-  echo [成功] 已生成：dist\网页转Markdown.exe
-  for %%F in ("dist\网页转Markdown.exe") do echo [体积] %%~zF 字节
+if exist "dist\网页转文件-剪藏助手-V1.1.0预览版.exe" (
+  echo [成功] 已生成：dist\网页转文件-剪藏助手-V1.1.0预览版.exe
+  for %%F in ("dist\网页转文件-剪藏助手-V1.1.0预览版.exe") do echo [体积] %%~zF 字节
 ) else (
   echo [失败] 未找到 exe，请查看上方错误信息。
 )

@@ -1,8 +1,8 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller 打包配置：GUI 版（无控制台窗口）、单文件、中文名称。
+"""PyInstaller 打包配置：V1.1.0 预览版 GUI（无控制台、单文件）。
 
 依赖：requests + bs4 + tkinter(标准库) + python-docx(用于导出 Word)。
-排除 trafilatura/numpy 等无关重型模块以控制体积。
+新增：settings / siyuan_client / destinations 目标适配器。
 注：python-docx 依赖 lxml，故 lxml 不能排除。
 """
 block_cipher = None
@@ -29,6 +29,9 @@ a = Analysis(
         "tkinter",
         "docx", "docx.oxml", "docx.opc", "lxml", "lxml.etree", "lxml._elementpath",
         "config", "fetcher", "classifier", "md_builder", "saver",
+        "settings", "siyuan_client",
+        "destinations", "destinations.base", "destinations.registry",
+        "destinations.local_files", "destinations.siyuan", "destinations.obsidian",
     ],
     hookspath=[],
     hooksconfig={},
@@ -49,7 +52,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name="网页转Markdown",
+    name="网页转文件-剪藏助手-V1.1.0预览版",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

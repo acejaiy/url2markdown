@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
-"""全局配置：按需修改本文件即可，无需改动业务逻辑。"""
+"""全局配置：小白无需修改；高阶用户可在此调整默认值与扩展点。
+
+V1.1.0-preview.1 新变化：
+- 新增思源笔记剪藏目标（API / 笔记本在 GUI 中测试连接后下拉选中，保存到本机配置文件）
+- 新增 destinations/ 目标适配器目录，方便后续接入思源插件、Obsidian 插件
+"""
+from __future__ import annotations
+
+# ---------- 版本 ----------
+APP_NAME = "网页转文件 · 剪藏助手"
+APP_VERSION = "1.1.0-preview.1"
+PREVIEW = True
 
 # ---------- 网络抓取 ----------
 REQUEST_TIMEOUT = 20           # 单次请求超时（秒）
@@ -8,18 +19,37 @@ USER_AGENT = (
     "(KHTML, like Gecko) Chrome/122.0 Safari/537.36"
 )
 
-# ---------- 思源笔记 API ----------
-# 本机思源默认开启 6806 端口且本地调用无需 token；如你改过端口请同步修改
+# ---------- 思源笔记 API（旧版字段，保留给 main.py / exe_main.py 使用） ----------
 SIYUAN_API = "http://127.0.0.1:6806"
-# 文章写入的笔记本名称（你已有的“笔记”笔记本）
 SIYUAN_NOTEBOOK = "笔记"
-# 写入的顶层路径前缀。留空表示直接写在笔记本根目录的分类文件夹下。
-# 例如设为 "/网页收藏"，则文章路径为 /网页收藏/政治/xxx
 PATH_PREFIX = ""
+
+# ---------- 思源笔记 API（V1.1.0 GUI 使用，可在 GUI 中覆盖） ----------
+# 小白只需记住：默认 http://127.0.0.1:6806，通常不用改。
+SIYUAN_API_BASE = "http://127.0.0.1:6806"
+# 笔记本 ID：一般无需填写。GUI 会在「测试连接」后自动列出笔记本供下拉选中。
+# 仅高阶用户手动配置时才填这里（或在 GUI 勾选「手动填 ID」）。
+SIYUAN_NOTEBOOK_ID = ""
+# 本机调用一般留空；仅远程/开启鉴权时需要填写。
+SIYUAN_TOKEN = ""
+# 思源中的文档路径前缀：前缀 / 分类 / 文章标题
+SIYUAN_PATH_PREFIX = "/网页剪藏"
+SIYUAN_TIMEOUT = 15
+# 实验性：把图片上传到思源 assets。默认关闭，先保留图片原始链接，成功率更高。
+SIYUAN_UPLOAD_IMAGES = False
+# 同名文档是否追加时间后缀，避免重复标题冲突。默认关闭，保持标题干净。
+SIYUAN_ADD_TIME_SUFFIX = False
+
+# ---------- 本地文件默认值 ----------
+DEFAULT_FORMAT = "Markdown"
+DEFAULT_USE_CATEGORY_FOLDER = True
+DEFAULT_WITH_IMAGES = True
+DEFAULT_LOCAL_TARGET = True
+DEFAULT_SIYUAN_TARGET = False
 
 # ---------- 自动分类 ----------
 # 分类名 => 关键词列表。命中关键词越多得分越高，得分最高者胜出。
-# 分类名会作为思源中的文件夹名；可自由增删、改名。
+# 分类名会作为本地文件夹名 / 思源文档路径中的分类层级；可自由增删、改名。
 CATEGORIES: dict[str, list[str]] = {
     "政治": [
         "中共中央", "国务院", "习近平", "中央政治局", "全会", "公报", "新华社",
@@ -64,3 +94,7 @@ INCLUDE_METADATA = True
 # ---------- 剪贴板监听 ----------
 # --watch 模式下轮询剪贴板的间隔（秒）
 WATCH_INTERVAL = 1.5
+
+# ---------- 目标适配器（高阶用户扩展点） ----------
+# GUI 会按这里的顺序展示目标；新增适配器后在此登记 key 即可。
+DESTINATION_ORDER = ["local", "siyuan", "obsidian"]
